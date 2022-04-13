@@ -10,6 +10,9 @@ import java.io.File;
 
 public class FileServerInitializer implements WebApplicationInitializer {
     private final String repositoryPath = "C:\\Users\\cubic\\IdeaProjects\\pdris-hw";
+    private final long maxFileSize = 100000;
+    private final long maxRequestSize = 200000;
+    private final long fileSizeThreshold = 50000;
 
     @Override
     public void onStartup(ServletContext servletContext) {
@@ -22,10 +25,7 @@ public class FileServerInitializer implements WebApplicationInitializer {
         final var registration = servletContext.addServlet("myapp", servlet);
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
-
-        File uploadDirectory = new File(repositoryPath);
-        MultipartConfigElement multipartConfigElement = new  MultipartConfigElement(uploadDirectory.getAbsolutePath(), 100000, 100000 * 2, 100000 / 2);
-
+        MultipartConfigElement multipartConfigElement = new  MultipartConfigElement(repositoryPath, maxFileSize, maxRequestSize, fileSizeThreshold);
         registration.setMultipartConfig(multipartConfigElement);
     }
 }
