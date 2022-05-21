@@ -1,40 +1,30 @@
 package ru.sbt.fileuploadservice.repository;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Repository
 public class FileRepository {
-    public void postFile(String fileName, byte[] fileBytes) throws IOException {
+    public void postFile(String fileName, MultipartFile file) {
         try {
-            File file = new File(fileName);
-            FileOutputStream fileWriter = new FileOutputStream(file);
-            int bytesRed = 0;
-            fileWriter.write(fileBytes, 0, bytesRed);
-            fileWriter.close();
+          Files.write(Path.of(fileName), file.getBytes());
         }
         catch (Exception e) {
             e.printStackTrace();
-            throw new IOException();
         }
     }
 
-    public byte[] getFile(String fileName) throws IOException {
+    public byte[] getFile(String fileName) {
         try {
-            File file = new File(fileName);
-            int fileSize = (int)file.length();
-            byte[] fileBytes = new byte[fileSize];
-            FileInputStream fileReader = new FileInputStream(file);
-            fileReader.read(fileBytes);
-            return fileBytes;
+            return Files.readAllBytes(Path.of(fileName));
         }
         catch (Exception e){
             e.printStackTrace();
-            throw new IOException();
+            System.out.println(Path.of(fileName).toAbsolutePath());
         }
+        return new byte[0];
     }
 }

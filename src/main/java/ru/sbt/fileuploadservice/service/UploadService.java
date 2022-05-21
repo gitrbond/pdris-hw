@@ -1,6 +1,7 @@
 package ru.sbt.fileuploadservice.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.sbt.fileuploadservice.repository.FileRepository;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class UploadService {
         return repository.getFile(fileName);
     }
 
-    public void postFile(String fileName, byte[] file) throws IOException {
+    public void postFile(String fileName, MultipartFile file) throws IOException {
         repository.postFile(fileName, file);
     }
 }

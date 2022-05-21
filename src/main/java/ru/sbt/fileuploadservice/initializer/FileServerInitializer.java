@@ -6,13 +6,10 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
-import java.io.File;
 
 public class FileServerInitializer implements WebApplicationInitializer {
-    private final String repositoryPath = "C:\\Users\\cubic\\IdeaProjects\\pdris-hw";
-    private final long maxFileSize = 100000;
-    private final long maxRequestSize = 200000;
-    private final long fileSizeThreshold = 50000;
+    private final String repositoryPath = "";
+    private final int maxFileSize = 100000;
 
     @Override
     public void onStartup(ServletContext servletContext) {
@@ -25,7 +22,7 @@ public class FileServerInitializer implements WebApplicationInitializer {
         final var registration = servletContext.addServlet("myapp", servlet);
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
-        MultipartConfigElement multipartConfigElement = new  MultipartConfigElement(repositoryPath, maxFileSize, maxRequestSize, fileSizeThreshold);
+        MultipartConfigElement multipartConfigElement = new  MultipartConfigElement(repositoryPath, (long)maxFileSize, (long)maxFileSize * 2, maxFileSize / 2);
         registration.setMultipartConfig(multipartConfigElement);
     }
 }
